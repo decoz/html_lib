@@ -1,0 +1,41 @@
+<html>
+
+<body>
+<h3> drag-upload </h3>
+<hr>
+tag : drag-upload
+<p>
+custom element for easy drag and drop file upload
+<hr>
+<h4> method </h4>
+<ul>
+  <li> uploadValue(key,value) : upload key values with file data </li>
+</ul>
+<h4> attr </h4>
+<ul>
+  <li> uploadurl : url where file sent , if not set  cancel file upload process  </li>
+</ul>
+<h4> handler </h4>
+<ul>
+  <li> onFileDrop(file) : drop handler before upload  </li>
+  <li> onUploadResponse(r) : response handler fater upload </li>
+</ul>
+<hr style = "height:100px; color:white; border:none">
+
+<p>
+<center>
+<drag-upload id = mydrag uploadurl = 'http://127.0.0.1:5000/bodysize/'>  </drag-upload>
+</center>
+
+<script type = 'module'>
+import dragUpload from './dragupload.js'
+customElements.define("drag-upload", dragUpload)
+
+mydrag.onUploadResponse = function(r){
+    alert(r)
+}
+
+</script>
+
+</body>
+</html>

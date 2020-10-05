@@ -1,0 +1,50 @@
+<script>
+  class FancyButton extends HTMLButtonElement {
+  constructor() {
+    super(); // always call super() first in the constructor.
+    //this.addEventListener('mousedown', e => this.changeBorder(e.offsetX, e.offsetY));
+
+  }
+
+  // Material design ripple animation.
+  changeBorder(x, y) {
+    this.style.borderColor = 'red'
+  }
+}
+
+customElements.define('fancy-button', FancyButton, {extends: 'button'});
+
+
+
+</script>
+
+<h3> this is custom button element simple test </h3>
+
+<button is = fancy-button >Fancy button!
+  <style>
+    :host { background-color:white }
+  </style>
+
+</button>
+
+<style>
+[is = fancy-button] {
+  border-radius:5px;
+  padding:5px;
+  background-color:white;
+  border:1px solid gray;
+}
+
+[is = fancy-button]:focus {
+  outline:0;
+  background-color:white;
+  border:1px solid gray;
+}
+
+[is = fancy-button]:active {
+  color:white;
+  background-color:gray;
+}
+
+
+</style>
