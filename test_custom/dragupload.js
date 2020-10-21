@@ -57,7 +57,7 @@ export default class dragUpload extends HTMLElement {
     let dt = e.dataTransfer
     let files = [...dt.files]
 
-    if( this.onFileDrop == 'function' ){
+    if( typeof(this.onFileDrop) == 'function' ){
       files.forEach(this.onFileDrop)
     }
 
