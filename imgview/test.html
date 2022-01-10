@@ -1,0 +1,49 @@
+<hr>
+<h4> imgMarker test </h4>
+<img-marker
+  id = 'bsize'
+  src = 'bodysize.png'
+  fontsize = '9'
+  marker = '
+    neck:127,76;
+    shoulder:247,100;
+    chest:167,130;
+    arm:60,214;
+    waist:169,211;
+    heap:169,243;
+    leg:245,380;
+  '
+  >
+</img-marker>
+
+<button id = 'vbutton'> value </button>
+
+<script type = 'module'>
+
+import imgMarker from './imgmarker.js'
+customElements.define("img-marker", imgMarker)
+
+</script>
+
+<script>
+var json = {
+    'neck': "44",
+    'shoulder': "33"
+    
+}
+
+vbutton.onclick = function(){
+  bsize.setValues(json)
+}
+
+
+</script>
+<style>
+img-marker {
+  border:1px solid gray;
+}
+img-marker :shadow .marker {
+  font-size:10pt;
+  color:red;
+}
+</style>
