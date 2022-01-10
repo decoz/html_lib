@@ -6,8 +6,10 @@ this is custom elements for visualization additional information over images.
 ## img_marker
 img marker is elements making easy to put text over images
 
+<img src = 'example.png'>
+
 #### import
-```
+``` html
 <script type = 'module'>
 import imgMarker from './imgmarker.js'
 customElements.define("img-marker", imgMarker)
@@ -15,7 +17,7 @@ customElements.define("img-marker", imgMarker)
 ```
 
 #### usage
-```
+``` html
 <img-marker
   id = 'im'
   src = 'src_img.png'
@@ -29,7 +31,6 @@ window.onload = function(e){
   img-marker.setValue('marker1', 'value1' )
 }
 </script>
-
 ```
 
 #### attribute
