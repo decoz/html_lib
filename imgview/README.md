@@ -1,5 +1,4 @@
-#img view
-
+# img view
 this is custom elements for visualization additional information over images.
 
 <hr>
