@@ -34,14 +34,15 @@ window.onload = function(e){
 ```
 
 #### attribute
-src : source image file
-marker : define markers
-  `
+- src : source image file
+- marker : define markers
+
+```
   marker-name1 : x-position, y-postion;
   marker-name2 : x-position, y-postion;
   :
-`
+```
 
 #### method
-setValue(key,value) : set value of marker by key
-setValues(json) : insert keys and values using json for multiple assignment
+- setValue(key,value) : set value of marker by key
+- setValues(json) : insert keys and values using json for multiple assignment
