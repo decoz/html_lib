@@ -4,19 +4,60 @@ export default class imgMarker extends HTMLElement {
   root = null
   img  = null
   fsize = 9
+  markers = []
+  me = this
 
   constructor() {
       super()
+
+  };
+
+  createMarker(name){
+    var marker = document.createElement('div')
+    marker.id = name
+    marker.className = 'marker'
+    marker.innerHTML = name
+    return marker
+  }
+
+  locateMarkers(){
+    var m = this.markers
+    var w = this.img.width
+    var h = this.img.height
+
+    this.root = this.shadowRoot.children[0]
+    //alert(this.root.clientWidth + ":" + this.img.src)
+    for( var i in m ){
+      var obj = this.createMarker(m[i].name)
+      /*
+      console.log( m[i].name + ":" + m[i].pos[0] + "," + m[i].pos[1] +
+        "[" + this.root.clientWidth + "," + this.root.clientHeight + "]")
+      */
+      this.root.appendChild(obj)
+      obj.style.left = m[i].pos[0] * this.root.clientWidth / w
+      obj.style.top = m[i].pos[1] * this.root.clientHeight / h
+    }
   };
 
   setImg(src) {
+    //console.log("setImg:"+src)
+
+    this.imgsrc = src
     this.img = document.createElement('img')
     this.img.src = src
-    this.root.appendChild(this.img)
+
+    var newimg = this.img.cloneNode()
+
+    newimg.onload = function(e){
+      var root = this.shadowRoot.querySelector("#imgdiv")
+      root.appendChild(newimg)
+      this.locateMarkers()
+
+    }.bind(this)
   };
 
   setValue(name, value) {
-    var marker = this.root.getElementById(name)
+    var marker = this.shadowRoot.getElementById(name)
     marker.innerText = value
   };
 
@@ -26,16 +67,22 @@ export default class imgMarker extends HTMLElement {
     }
   };
 
-  addMarker(name, posx, posy) {
-    //alert(name + " " + posx + "," + posy)
-    var marker = document.createElement('div')
+  setMarkers(json) {
+    for( var k in json ){
+      this.addMarker(k, json[k][0], json[k][1] )
+    }
+  };
 
-    marker.id = name
-    marker.className = 'marker'
-    marker.innerHTML = name
-    this.root.appendChild(marker)
-    marker.style.left = parseInt(posx)
-    marker.style.top = parseInt(posy)
+
+  addMarker(name, posx, posy) {
+
+    var left = parseInt(posx)
+    var top = parseInt(posy)
+
+    this.markers.push( {
+      "name": name,
+      "pos": [left, top]
+    } )
   };
 
   readMarker(str) {
@@ -45,31 +92,33 @@ export default class imgMarker extends HTMLElement {
     var mark_name = f[0].trim()
     var pos = f[1].split(',')
     if( pos.length == 2 ){
-      //alert(mark_name + ":" + pos[0] + "," + pos[1])
-
-      this.addMarker(mark_name, pos[0],pos[1])
+        this.addMarker(mark_name, pos[0],pos[1])
     }
   };
 
   connectedCallback(){
-    this.root = this.attachShadow({mode:'open'})
+    //this.root = this.shadowRoot.children[0]
+    this.attachShadow({mode:'open'})
+    var div = document.createElement('div')
+    div.id = 'imgdiv'
+    this.root = this.shadowRoot.appendChild(div)
+
 
     if( this.hasAttributes('src') ){
       this.imgsrc = this.getAttribute('src')
       this.setImg(this.imgsrc)
     }
 
-    if( this.hasAttributes('marker') ){
-      var str = this.getAttribute('marker')
-      var markers = str.split(';')
-      for( var i in markers )
-        this.readMarker(markers[i])
+    if( this.getAttribute('marker') ){
+      var json  = JSON.parse(this.getAttribute('marker'))
+      if(json) this.setMarkers(json)
     }
 
     if( this.hasAttributes('fontsize') ){
       var str = this.getAttribute('fontsize')
       this.fsize = parseInt(str)
     }
+
 
 
     this.shadowRoot.innerHTML += `
@@ -79,8 +128,13 @@ export default class imgMarker extends HTMLElement {
         position:relative;
         display: inline-block;
       }
+      #imgdiv {
+        position:relative;
+        display: inline-block;
+      }
       img {
-
+        width:100%;
+        position:relative;
       }
       .marker{
         font-size:`
@@ -91,5 +145,7 @@ export default class imgMarker extends HTMLElement {
       </style> `
 
   };
+
+
 
 }
