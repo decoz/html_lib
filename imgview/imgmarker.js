@@ -4,7 +4,7 @@ export default class imgMarker extends HTMLElement {
   root = null
   img  = null
   fsize = 9
-  markers = []
+  markers = {}
   me = this
 
   constructor() {
@@ -20,6 +20,12 @@ export default class imgMarker extends HTMLElement {
     return marker
   }
 
+  refreshMarkers() {
+    this.root.innerHTML = ""
+    //debugger
+    this.setImg(this.imgsrc)
+  }
+
   locateMarkers(){
     var m = this.markers
     var w = this.img.width
@@ -27,20 +33,21 @@ export default class imgMarker extends HTMLElement {
 
     this.root = this.shadowRoot.children[0]
     //alert(this.root.clientWidth + ":" + this.img.src)
-    for( var i in m ){
-      var obj = this.createMarker(m[i].name)
+    for( var k in m ){
+      var obj = this.createMarker(k)
       /*
       console.log( m[i].name + ":" + m[i].pos[0] + "," + m[i].pos[1] +
         "[" + this.root.clientWidth + "," + this.root.clientHeight + "]")
       */
       this.root.appendChild(obj)
-      obj.style.left = m[i].pos[0] * this.root.clientWidth / w
-      obj.style.top = m[i].pos[1] * this.root.clientHeight / h
+      obj.style.left = m[k][0] * this.root.clientWidth / w
+      obj.style.top = m[k][1] * this.root.clientHeight / h
     }
   };
 
   setImg(src) {
     //console.log("setImg:"+src)
+    if(!src) return
 
     this.imgsrc = src
     this.img = document.createElement('img')
@@ -54,6 +61,7 @@ export default class imgMarker extends HTMLElement {
       this.locateMarkers()
 
     }.bind(this)
+
   };
 
   setValue(name, value) {
@@ -79,10 +87,7 @@ export default class imgMarker extends HTMLElement {
     var left = parseInt(posx)
     var top = parseInt(posy)
 
-    this.markers.push( {
-      "name": name,
-      "pos": [left, top]
-    } )
+    this.markers[name] = [left, top]
   };
 
   readMarker(str) {
@@ -104,9 +109,8 @@ export default class imgMarker extends HTMLElement {
     this.root = this.shadowRoot.appendChild(div)
 
 
-    if( this.hasAttributes('src') ){
-      this.imgsrc = this.getAttribute('src')
-      this.setImg(this.imgsrc)
+    if( this.hasAttributes('src') ){    
+      this.setImg(this.getAttribute('src'))
     }
 
     if( this.getAttribute('marker') ){
