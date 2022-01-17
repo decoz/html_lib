@@ -1,0 +1,65 @@
+<html>
+<head>
+ <meta charset = "utf-8">
+</head>
+<body>
+
+<center>
+<h1> jsinput test</h1>
+
+<js-input
+  id = 'ji'
+  input = '{
+    "data1":"text/width:100px",
+    "data12":"text/width:100px",
+    "data13":"text/width:100px",
+
+    "data2":"select/options:1,2,3,4/width:40",
+    "data3":"/width:170px",
+    "data4": [{
+      "x":"/width:50px",
+      "y":"/width:50px"
+      }]
+  }'
+>
+</js-input>
+
+<p>
+<button id = 'btn_json'>
+get json
+</button>
+<pre align = left id = output_json >
+</pre>
+
+<script type = 'module'>
+import jsInput from './jsinput.js'
+customElements.define('js-input', jsInput)
+window.onload = e=>{
+
+}
+btn_json.onclick = e=>{
+  let json = ji.extractJson()
+  console.log("onclick:")
+  console.log(json)
+  output_json.innerText = JSON.stringify(json, null, '\t')
+
+
+
+}
+
+</script>
+
+<style>
+js-input {
+  width:300px;
+}
+pre {
+  width:300px;
+  border:0;
+  background-color:lightgray;
+
+}
+#btn_json {
+  width:300px;
+}
+</style>
