@@ -19,27 +19,16 @@ customElements.define("img-marker", imgMarker)
 #### usage
 ``` html
 <img-marker
-  id = 'bsize'
-  src = 'bodysize.png'
-  fontsize = '11'
-  marker = '{
-    "neck":[0.6,0.16],
-    "shoulder":[0.2,0.2],
-    "chest":[0.45,0.25],
-    "arm":[0.17, 0.35],
-    "waist":[0.45,0.39],
-    "heap":[0.45,0.45],
-    "leg":[0.7,0.65]
-  }'
-  >
+  id = 'im'
+  src = 'src_img.png'
+  fontsize = '9'
+  marker = '{"marker1":[10,10], "marker2":[10,50]}'
+>
 </img-marker>
 
 <script>
 window.onload = function(e){
-  bsize.labels = { 'chest':'가슴'  }
-  bsize.redrawMarkers()
-  bsize.setValues(json)
-  bsize.setValue('shoulder','48')
+  img-marker.setValue('marker1', 'value1' )
 }
 </script>
 ```
@@ -47,11 +36,6 @@ window.onload = function(e){
 #### attribute
 - src : source image file
 - marker : define markers
-  ( position must be propotional 0~1 float values )
-- fontsize : fontsize pt value
-- css : additional css
-- labels : convert label dictionary (must redraw after set)
-
 
 ```
   {

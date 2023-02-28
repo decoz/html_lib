@@ -1,0 +1,16 @@
+
+<a-select>
+  <option> 1 </option>
+  <option> 2 </option>
+</a-select>
+
+<button> mybutton </button>
+
+<script type = 'module'>
+import advSelect from './advselect.js'
+import advButton from './advselect.js'
+
+//customElements.define('a-select', advSelect)
+customElements.define('a-button', advButton, {extends:'button'})
+
+</script>
