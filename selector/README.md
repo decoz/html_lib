@@ -1,23 +1,34 @@
-# input rating
+# selector
 
-input rating stars
+make html elements option for select
 
 <hr>
 
 #### import
 ``` html
 <script type = 'module'>
-import iRating from './irating.js'
-customElements.define('i-rating', iRating)
+import iRating from './selector.js'
+customElements.define('t-select', iRating)
 </script>
 ```
 
-#### method
-- Get() : get raiting
-- Put(v) : set rating
+### example
+``` html
+<t-select select = food>
+<span opt = food value = 'pizza'> pizza </span>
+<span opt = food value = 'checken'> chicken </span>
+</t-select>
 
-<img src = 'iraiting.png'>
+<style>
+t-select span[selected] {
+  color:red
+}
+</style>
+```
+
+#### method
 
 
 #### attribute
-- max : max stars
+- value : selected option value
+- onselect : event function when selection event
